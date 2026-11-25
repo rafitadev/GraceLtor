@@ -113,6 +113,7 @@ android {
                     "-DANDROID_STL=c++_static",
                     "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON",
                     "-DENABLE_LTO=ON",
+                    "-DENABLE_ANALYTICS=OFF",
                     "-DCMAKE_BUILD_TYPE=Release"
                     // , "-DENABLE_GENERIC=ON"
                 )
