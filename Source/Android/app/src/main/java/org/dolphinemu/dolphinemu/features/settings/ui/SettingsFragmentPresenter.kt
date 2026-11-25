@@ -42,6 +42,7 @@ import org.dolphinemu.dolphinemu.features.settings.model.AdHocStringSetting
 import org.dolphinemu.dolphinemu.features.settings.model.BooleanSetting
 import org.dolphinemu.dolphinemu.features.settings.model.FloatSetting
 import org.dolphinemu.dolphinemu.features.settings.model.IntSetting
+import org.dolphinemu.dolphinemu.features.settings.model.PerformanceProfile
 import org.dolphinemu.dolphinemu.features.settings.model.PostProcessing
 import org.dolphinemu.dolphinemu.features.settings.model.ScaledIntSetting
 import org.dolphinemu.dolphinemu.features.settings.model.Settings
@@ -1582,7 +1583,43 @@ class SettingsFragmentPresenter(
         }, R.string.real_balance_board, 0))
     }
 
+    private fun addPerformanceProfileItem(
+        sl: ArrayList<SettingsItem>,
+        titleId: Int,
+        descriptionId: Int,
+        profile: PerformanceProfile
+    ) {
+        sl.add(
+            RunRunnable(
+                context,
+                titleId,
+                descriptionId,
+                R.string.profile_confirmation,
+                R.string.profile_applied,
+                false
+            ) {
+                settings?.let {
+                    profile.apply(it)
+                    loadSettingsList()
+                }
+            })
+    }
+
     private fun addGraphicsSettings(sl: ArrayList<SettingsItem>) {
+        sl.add(HeaderSetting(context, R.string.performance_profiles, 0))
+        addPerformanceProfileItem(
+            sl, R.string.profile_very_low, R.string.profile_very_low_description,
+            PerformanceProfile.VERY_LOW
+        )
+        addPerformanceProfileItem(
+            sl, R.string.profile_low, R.string.profile_low_description,
+            PerformanceProfile.LOW
+        )
+        addPerformanceProfileItem(
+            sl, R.string.profile_default, R.string.profile_default_description,
+            PerformanceProfile.DEFAULT
+        )
+
         sl.add(HeaderSetting(context, R.string.graphics_general, 0))
         sl.add(
             StringSingleChoiceSetting(
