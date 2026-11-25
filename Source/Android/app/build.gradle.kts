@@ -115,6 +115,7 @@ android {
                     "-DENABLE_LTO=ON",
                     "-DENABLE_ANALYTICS=OFF",
                     "-DENABLE_AUTOUPDATE=OFF",
+                    "-DENABLE_TESTS=OFF",
                     "-DCMAKE_BUILD_TYPE=Release"
                     // , "-DENABLE_GENERIC=ON"
                 )
