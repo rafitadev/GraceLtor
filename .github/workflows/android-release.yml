@@ -1,0 +1,57 @@
+# Builds a signed (throwaway key) release APK so every optimization commit
+# can be compile-checked and the APK can be downloaded and tested on a phone.
+name: Android release APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [otimizacao-low-spec]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install Android NDK
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          NDK=$(grep -oP 'ndkVersion = "\K[^"]+' Source/Android/app/build.gradle.kts)
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;$NDK" "cmake;3.31.6"
+
+      - name: Create throwaway signing key
+        run: |
+          keytool -genkeypair -v -keystore "$RUNNER_TEMP/ci.jks" -storepass ci-pass \
+            -keypass ci-pass -alias ci -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=GraceLtor CI"
+
+      - name: Build release APK
+        working-directory: Source/Android
+        run: |
+          ./gradlew assembleRelease --stacktrace \
+            -Pkeystore="$RUNNER_TEMP/ci.jks" -Pstorepass=ci-pass \
+            -Pkeyalias=ci -Pkeypass=ci-pass
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: graceltor-release-apk
+          path: Source/Android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
