@@ -98,9 +98,13 @@ android {
 
     defaultConfig {
         ndk {
-            // We only officially support arm64-v8a and x86_64.
-            // If you want to try building other ABIs anyway, you need -DENABLE_GENERIC=ON.
-            abiFilters += listOf("arm64-v8a", "x86_64") //, "armeabi-v7a", "x86"
+            // GraceLtor targets ARM64 phones, so only arm64-v8a is built by default.
+            // Override with e.g. -Pgraceltor.abis=arm64-v8a,x86_64 for emulators/Chromebooks.
+            // Other ABIs (armeabi-v7a, x86) need -DENABLE_GENERIC=ON.
+            val graceltorAbis = (project.findProperty("graceltor.abis") as String?)
+                ?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }
+                ?: listOf("arm64-v8a")
+            abiFilters += graceltorAbis
         }
 
         externalNativeBuild {
