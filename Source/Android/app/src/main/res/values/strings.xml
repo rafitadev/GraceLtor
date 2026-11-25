@@ -308,6 +308,15 @@
     <string name="aspect_ratio">Aspect Ratio</string>
     <string name="aspect_ratio_description">Select what aspect ratio to use when rendering</string>
     <string name="shader_compilation_mode">Shader Compilation Mode</string>
+    <string name="performance_profiles">Performance Profiles</string>
+    <string name="profile_very_low">Apply profile: Very Low</string>
+    <string name="profile_very_low_description">For the weakest phones. Native resolution, no filtering, and shader compilation never blocks emulation (objects may briefly be missing while shaders compile).</string>
+    <string name="profile_low">Apply profile: Low</string>
+    <string name="profile_low_description">Native resolution, no filtering, no pixel lighting and no EFB access. Shader compilation may cause short pauses.</string>
+    <string name="profile_default">Apply profile: Default</string>
+    <string name="profile_default_description">Restores Dolphin\'s default values for every setting the profiles change.</string>
+    <string name="profile_confirmation">This changes several graphics and core settings. Continue?</string>
+    <string name="profile_applied">Profile applied</string>
     <string name="wait_for_shaders">Compile Shaders Before Starting</string>
     <string name="wait_for_shaders_description">This causes a delay when launching games, but will reduce stuttering early on.</string>
 
