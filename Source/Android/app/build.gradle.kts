@@ -114,6 +114,7 @@ android {
                     "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON",
                     "-DENABLE_LTO=ON",
                     "-DENABLE_ANALYTICS=OFF",
+                    "-DENABLE_AUTOUPDATE=OFF",
                     "-DCMAKE_BUILD_TYPE=Release"
                     // , "-DENABLE_GENERIC=ON"
                 )
