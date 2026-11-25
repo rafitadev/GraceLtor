@@ -117,6 +117,7 @@ android {
                     "-DENABLE_AUTOUPDATE=OFF",
                     "-DENABLE_TESTS=OFF",
                     "-DENABLE_LLVM=OFF",
+                    "-DUSE_UPNP=OFF",
                     "-DCMAKE_BUILD_TYPE=Release"
                     // , "-DENABLE_GENERIC=ON"
                 )
