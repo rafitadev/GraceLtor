@@ -30,6 +30,10 @@ jobs:
           java-version: '21'
 
       - uses: gradle/actions/setup-gradle@v4
+        with:
+          # The SDL submodule ships an example gradle-wrapper.jar that the validator
+          # does not know. The app's own wrapper (Source/Android) is the one we use.
+          validate-wrappers: false
 
       - name: Install Android NDK
         run: |
